@@ -1,3 +1,6 @@
+import '@fontsource/noto-naskh-arabic/400.css';
+import '@fontsource/noto-naskh-arabic/700.css';
+
 const FONTS = [
   { name: 'Default', family: 'system-ui, sans-serif', type: 'system' },
   { name: 'UKIJ Tuz', family: '"UKIJ Tuz"', type: 'uyghur' },
@@ -8,7 +11,7 @@ const FONTS = [
   { name: 'UKIJ Diwani', family: '"UKIJ Diwani"', type: 'uyghur' },
   { name: 'UKIJ Qolyazma', family: '"UKIJ Qolyazma"', type: 'uyghur' },
   { name: 'Alkatip Asliye', family: '"ALKATIP Asliye"', type: 'uyghur' },
-  { name: 'Noto Naskh Arabic', family: '"Noto Naskh Arabic", serif', type: 'web' },
+  { name: 'Noto Naskh Arabic', family: '"Noto Naskh Arabic", serif', type: 'bundled' },
 ];
 
 let fontsLoaded = false;
@@ -50,11 +53,6 @@ export function loadFonts() {
   style.textContent = css;
   document.head.appendChild(style);
 
-  const link = document.createElement('link');
-  link.rel = 'stylesheet';
-  link.href =
-    'https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;700&display=swap';
-  document.head.appendChild(link);
 }
 
 export function applyFont(fontName) {

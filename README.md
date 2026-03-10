@@ -96,6 +96,8 @@ The editor supports the following fonts:
 9. ALKATIP Asliye
 10. Noto Naskh Arabic
 
+The default Noto Naskh Arabic font is bundled with the website build so the Uyghur Arabic UI works without depending on Google Fonts at runtime.
+
 To use Uyghur fonts, place the font files (in WOFF2, WOFF, or TTF format) in the `public/fonts/` directory. Font files should be named to match the font name with hyphens replacing spaces (e.g., `UKIJ-Tuz.woff2`).
 
 ### Font Licensing
