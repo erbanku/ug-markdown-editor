@@ -45,60 +45,67 @@ function buildUI() {
 
   app.innerHTML = `
     <div class="app-shell">
-      <div class="header">
-        <div class="header-top">
-          <div class="hero-copy">
-            <span class="hero-badge">${t('ui.sourcePane')} · ${t('ui.previewPane')}</span>
-            <h1 class="app-title">${t('ui.title')}</h1>
-            <p class="app-subtitle">${t('ui.subtitle')}</p>
+      <div class="app-header">
+        <div class="app-branding">
+          <h1 class="app-title">${t('ui.title')}</h1>
+          <span class="app-mode-badge">${t('ui.sourcePane')} · ${t('ui.previewPane')}</span>
+        </div>
+        <button class="settings-toggle" id="settings-toggle" aria-label="Settings">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M12 1v6m0 6v6m5.66-15.66l-4.24 4.24m0 6.84l-4.24 4.24M23 12h-6m-6 0H1m15.66 5.66l-4.24-4.24m0-6.84l-4.24-4.24"></path>
+          </svg>
+        </button>
+      </div>
+
+      <div class="settings-panel" id="settings-panel">
+        <div class="settings-content">
+          <div class="settings-section">
+            <h3 class="settings-title">${t('ui.language')}</h3>
+            <select id="lang-select">
+              ${languages.map((l) => `<option value="${l.code}" ${l.code === lang ? 'selected' : ''}>${l.label}</option>`).join('')}
+            </select>
           </div>
-          <div class="header-controls">
-            <div class="control-group">
-              <label for="lang-select">${t('ui.language')}</label>
-              <select id="lang-select">
-                ${languages.map((l) => `<option value="${l.code}" ${l.code === lang ? 'selected' : ''}>${l.label}</option>`).join('')}
-              </select>
-            </div>
-            <div class="control-group">
-              <label for="font-select">${t('ui.font')}</label>
-              <select id="font-select">
-                ${fonts.map((f) => `<option value="${f.name}" ${f.name === currentFont ? 'selected' : ''}>${f.name}</option>`).join('')}
-              </select>
-            </div>
-            <div class="control-group">
-              <label for="font-size">${t('ui.fontSize')}</label>
-              <select id="font-size">
-                <option value="14">14px</option>
-                <option value="16" selected>16px</option>
-                <option value="18">18px</option>
-                <option value="20">20px</option>
-                <option value="24">24px</option>
-                <option value="28">28px</option>
-              </select>
-            </div>
-            <div class="control-group rtl-toggle">
-              <label for="rtl-checkbox">${t('ui.rtlMode')}</label>
+
+          <div class="settings-section">
+            <h3 class="settings-title">${t('ui.font')}</h3>
+            <select id="font-select">
+              ${fonts.map((f) => `<option value="${f.name}" ${f.name === currentFont ? 'selected' : ''}>${f.name}</option>`).join('')}
+            </select>
+          </div>
+
+          <div class="settings-section">
+            <h3 class="settings-title">${t('ui.fontSize')}</h3>
+            <select id="font-size">
+              <option value="14">14px</option>
+              <option value="16" selected>16px</option>
+              <option value="18">18px</option>
+              <option value="20">20px</option>
+              <option value="24">24px</option>
+              <option value="28">28px</option>
+            </select>
+          </div>
+
+          <div class="settings-section">
+            <label class="checkbox-label">
               <input type="checkbox" id="rtl-checkbox" ${rtlEnabled ? 'checked' : ''}>
-            </div>
-            <div class="control-group export-buttons">
-              <label>${t('ui.export')}</label>
-              <div class="button-row">
-                <button class="btn-export" id="btn-pdf">${t('ui.exportPdf')}</button>
-                <button class="btn-export" id="btn-png">${t('ui.exportPng')}</button>
-                <button class="btn-export" id="btn-jpg">${t('ui.exportJpg')}</button>
-              </div>
+              <span>${t('ui.rtlMode')}</span>
+            </label>
+          </div>
+
+          <div class="settings-section">
+            <h3 class="settings-title">${t('ui.export')}</h3>
+            <div class="export-buttons">
+              <button class="btn-export" id="btn-pdf">${t('ui.exportPdf')}</button>
+              <button class="btn-export" id="btn-png">${t('ui.exportPng')}</button>
+              <button class="btn-export" id="btn-jpg">${t('ui.exportJpg')}</button>
             </div>
           </div>
         </div>
       </div>
-      <div class="workspace">
-        <div class="workspace-header">
-          <div class="workspace-pane-label">${t('ui.sourcePane')}</div>
-          <div class="workspace-pane-label">${t('ui.previewPane')}</div>
-        </div>
-        <div class="editor-container ${rtlEnabled ? 'editor-rtl' : ''}">
-          <div id="editor"></div>
-        </div>
+
+      <div class="editor-container ${rtlEnabled ? 'editor-rtl' : ''}">
+        <div id="editor"></div>
       </div>
     </div>
   `;
@@ -175,6 +182,23 @@ function applyFontSize(size) {
 }
 
 function bindEvents() {
+  const settingsToggle = document.getElementById('settings-toggle');
+  const settingsPanel = document.getElementById('settings-panel');
+
+  settingsToggle?.addEventListener('click', () => {
+    const isOpen = settingsPanel.classList.contains('open');
+    settingsPanel.classList.toggle('open', !isOpen);
+    settingsToggle.setAttribute('aria-expanded', !isOpen);
+  });
+
+  // Close settings when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!settingsPanel?.contains(e.target) && !settingsToggle?.contains(e.target)) {
+      settingsPanel?.classList.remove('open');
+      settingsToggle?.setAttribute('aria-expanded', 'false');
+    }
+  });
+
   document.getElementById('lang-select')?.addEventListener('change', (e) => {
     const savedContent = editor?.getMarkdown() || '';
     localStorage.setItem('ug-editor-content', savedContent);
