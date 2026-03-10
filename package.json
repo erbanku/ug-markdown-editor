@@ -12,7 +12,13 @@
     "type": "git",
     "url": "git+https://github.com/erbanku/ug-markdown-editor.git"
   },
-  "keywords": ["markdown", "editor", "uyghur", "rtl", "wysiwyg"],
+  "keywords": [
+    "markdown",
+    "editor",
+    "uyghur",
+    "rtl",
+    "wysiwyg"
+  ],
   "author": "",
   "license": "MIT",
   "bugs": {
@@ -20,6 +26,7 @@
   },
   "homepage": "https://github.com/erbanku/ug-markdown-editor#readme",
   "dependencies": {
+    "@fontsource/noto-naskh-arabic": "^5.2.11",
     "@toast-ui/editor": "^3.2.2",
     "html2canvas": "^1.4.1",
     "jspdf": "^4.2.0",

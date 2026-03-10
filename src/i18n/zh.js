@@ -4,9 +4,12 @@ export default {
   label: '\u7B80\u4F53\u4E2D\u6587',
   ui: {
     title: '\u7EF4\u543E\u5C14\u8BED Markdown \u7F16\u8F91\u5668',
+    subtitle: '\u5728\u7B80\u6D01\u7684\u53CC\u680F\u5DE5\u4F5C\u533A\u4E2D\u7F16\u5199 Markdown\uff0c\u5E76\u5B9E\u65F6\u67E5\u770B\u9884\u89C8\u3002',
     language: '\u8BED\u8A00',
     font: '\u5B57\u4F53',
     fontSize: '\u5B57\u53F7',
+    sourcePane: 'Markdown \u6E90\u4EE3\u7801',
+    previewPane: '\u5B9E\u65F6\u9884\u89C8',
     exportPdf: '\u5BFC\u51FA PDF',
     exportPng: '\u5BFC\u51FA PNG',
     exportJpg: '\u5BFC\u51FA JPG',

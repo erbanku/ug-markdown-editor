@@ -10,7 +10,7 @@ const locales = {
   zh,
 };
 
-let currentLang = localStorage.getItem('ug-editor-lang') || 'en';
+let currentLang = localStorage.getItem('ug-editor-lang') || 'ug-arabic';
 
 export function t(key) {
   if (!key || typeof key !== 'string') return key;

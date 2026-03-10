@@ -1,6 +1,6 @@
 # Uyghur Markdown Editor
 
-A browser-based, no-login WYSIWYG Markdown editor with export capabilities and comprehensive Uyghur font support.
+A browser-based, no-login split-view Markdown editor with export capabilities and comprehensive Uyghur font support.
 
 ---
 
@@ -12,11 +12,11 @@ A browser-based, no-login WYSIWYG Markdown editor with export capabilities and c
 
 ### Description
 
-Uyghur Markdown Editor is a client-side WYSIWYG Markdown editor designed for multilingual content creation with specialized support for the Uyghur language. It runs entirely in the browser with no backend server or authentication required.
+Uyghur Markdown Editor is a client-side split-view Markdown editor designed for multilingual content creation with specialized support for the Uyghur language. It runs entirely in the browser with no backend server or authentication required.
 
 ### Features
 
-- Real-time WYSIWYG Markdown editing with live preview
+- Real-time split Markdown source editing with live preview
 - Export to PDF format
 - Export to image formats (PNG, JPG)
 - Full RTL (Right-to-Left) text rendering support
@@ -33,7 +33,7 @@ Uyghur Markdown Editor is a client-side WYSIWYG Markdown editor designed for mul
 ### Technology Stack
 
 - Vite - Build tool and development server
-- Toast UI Editor - WYSIWYG Markdown editor
+- Toast UI Editor - Split-view Markdown editor
 - html2canvas - HTML to canvas rendering for image export
 - jsPDF - PDF generation
 - Vanilla JavaScript (ES Modules)
@@ -78,7 +78,7 @@ npm run preview
 3. Choose a font from the font selector
 4. Adjust font size as needed
 5. Toggle RTL mode for right-to-left text entry
-6. Write your content using the WYSIWYG editor or Markdown syntax
+6. Write your content in the split Markdown source editor and follow the live preview
 7. Export your document as PDF, PNG, or JPG using the export buttons
 
 ### Font Support
@@ -95,6 +95,8 @@ The editor supports the following fonts:
 8. UKIJ Qolyazma
 9. ALKATIP Asliye
 10. Noto Naskh Arabic
+
+The default Noto Naskh Arabic font is bundled with the website build so the Uyghur Arabic UI works without depending on Google Fonts at runtime.
 
 To use Uyghur fonts, place the font files (in WOFF2, WOFF, or TTF format) in the `public/fonts/` directory. Font files should be named to match the font name with hyphens replacing spaces (e.g., `UKIJ-Tuz.woff2`).
 
@@ -116,11 +118,11 @@ To use Uyghur fonts, place the font files (in WOFF2, WOFF, or TTF format) in the
 
 ### Chushenduresh
 
-Uyghurche Markdown Tehrirliguchi bolsa, torda ishlaydighan, kirishke hajetsiz WYSIWYG Markdown tehrirliguchi bolup, Uyghur tili qollishigha alahide ehmiyyet bergen. U puxten mushtiri terepte ishlaydu, arqa mulazimet yaki tesdiqqa hajiti yoq.
+Uyghurche Markdown Tehrirliguchi bolsa, torda ishlaydighan, kirishke hajetsiz ikki qanatliq Markdown tehrirliguchi bolup, Uyghur tili qollishigha alahide ehmiyyet bergen. U puxten mushtiri terepte ishlaydu, arqa mulazimet yaki tesdiqqa hajiti yoq.
 
 ### Alahidilikliri
 
-- Heqiqiy waqittiki WYSIWYG Markdown tehrirleysh we aldal koresh
+- Heqiqiy waqittiki ikki qanatliq Markdown menbesini tehrirleysh we aldal koresh
 - PDF formatigha chiqirish
 - Resim formatigha chiqirish (PNG, JPG)
 - Tolaq RTL (Onggdin Solgha) teksit korsetish qolleyshi
@@ -168,7 +170,7 @@ npm run build
 3. Xet tallash ramkisidin bir xet tallang
 4. Lazim bolghan chaghdiki xet chongliqini tengsheng
 5. Onggdin solgha teksit kirguzush uchun RTL halitini almashturang
-6. WYSIWYG tehrirliguchi yaki Markdown grammatikisi arqiliq mezmun yezing
+6. Ikki qanatliq Markdown menbe tehrirliguchida mezmun yezing we aldin korushni kuziting
 7. Chiqirish tugmiliri arqiliq hojjetingizni PDF, PNG yaki JPG qilip chiqiring
 
 ---
@@ -177,11 +179,11 @@ npm run build
 
 ### چۈشەندۈرۈش
 
-ئۇيغۇرچە Markdown تەھرىرلىگۈچى بولسا، توردا ئىشلەيدىغان، كىرىشكە ھاجەتسىز WYSIWYG Markdown تەھرىرلىگۈچى بولۇپ، ئۇيغۇر تىلى قوللىشىغا ئالاھىدە ئەھمىيەت بەرگەن. ئۇ پۈتۈن مۇشتەرى تەرەپتە ئىشلەيدۇ، ئارقا مۇلازىمەت ياكى تەستىققا ھاجىتى يوق.
+ئۇيغۇرچە Markdown تەھرىرلىگۈچى بولسا، توردا ئىشلەيدىغان، كىرىشكە ھاجەتسىز ئىككى قاناتلىق Markdown تەھرىرلىگۈچى بولۇپ، ئۇيغۇر تىلى قوللىشىغا ئالاھىدە ئەھمىيەت بەرگەن. ئۇ پۈتۈن مۇشتەرى تەرەپتە ئىشلەيدۇ، ئارقا مۇلازىمەت ياكى تەستىققا ھاجىتى يوق.
 
 ### ئالاھىدىلىكلىرى
 
-- ھەقىقىي ۋاقىتتىكى WYSIWYG Markdown تەھرىرلەيش ۋە ئالدال كۆرەش
+- ھەقىقىي ۋاقىتتىكى ئىككى قاناتلىق Markdown مەنبەسىنى تەھرىرلەيش ۋە ئالدال كۆرەش
 - PDF فورماتىغا چىقىرىش
 - رەسىم فورماتىغا چىقىرىش (PNG, JPG)
 - تولۇق RTL (ئوڭدىن سولغا) تېكىست كۆرسىتىش قوللەيشى
@@ -229,7 +231,7 @@ npm run build
 3. خەت تاللاش رامكىسىدىن بىر خەت تاللاڭ
 4. لازىم بولغان چاغدا خەت چوڭلۇقىنى تەڭشەڭ
 5. ئوڭدىن سولغا تېكىست كىرگۈزۈش ئۈچۈن RTL ھالىتىنى ئالماشتۇراڭ
-6. WYSIWYG تەھرىرلىگۈچى ياكى Markdown گرامماتىكىسى ئارقىلىق مەزمۇن يېزىڭ
+6. ئىككى قاناتلىق Markdown مەنبە تەھرىرلىگۈچىدە مەزمۇن يېزىپ، ئالدال كۆرۈشنى كۈزىتىڭ
 7. چىقىرىش تۈگمىلىرى ئارقىلىق ھۆججىتىڭىزنى PDF، PNG ياكى JPG قىلىپ چىقىرىڭ
 
 ---
@@ -238,11 +240,11 @@ npm run build
 
 ### 说明
 
-维吾尔语 Markdown 编辑器是一款基于浏览器的、无需登录的所见即所得 Markdown 编辑器，专为维吾尔语提供特殊支持。它完全在客户端运行，无需后端服务器或身份验证。
+维吾尔语 Markdown 编辑器是一款基于浏览器的、无需登录的双栏 Markdown 编辑器，专为维吾尔语提供特殊支持。它完全在客户端运行，无需后端服务器或身份验证。
 
 ### 功能特点
 
-- 实时所见即所得 Markdown 编辑和预览
+- 实时双栏 Markdown 源码编辑和预览
 - 导出为 PDF 格式
 - 导出为图片格式（PNG、JPG）
 - 完整的 RTL（从右到左）文本渲染支持
@@ -259,7 +261,7 @@ npm run build
 ### 技术栈
 
 - Vite - 构建工具和开发服务器
-- Toast UI Editor - 所见即所得 Markdown 编辑器
+- Toast UI Editor - 双栏 Markdown 编辑器
 - html2canvas - HTML 渲染为画布，用于图片导出
 - jsPDF - PDF 生成
 - 原生 JavaScript（ES 模块）
@@ -304,7 +306,7 @@ npm run preview
 3. 从字体选择器中选择字体
 4. 根据需要调整字号
 5. 切换 RTL 模式以进行从右到左的文本输入
-6. 使用所见即所得编辑器或 Markdown 语法编写内容
+6. 在双栏 Markdown 源码编辑器中编写内容并查看实时预览
 7. 使用导出按钮将文档导出为 PDF、PNG 或 JPG
 
 ### 字体许可

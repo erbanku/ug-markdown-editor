@@ -4,9 +4,12 @@ export default {
   label: 'English',
   ui: {
     title: 'Uyghur Markdown Editor',
+    subtitle: 'Write Markdown in a clean split workspace with instant live preview.',
     language: 'Language',
     font: 'Font',
     fontSize: 'Size',
+    sourcePane: 'Markdown Source',
+    previewPane: 'Live Preview',
     exportPdf: 'Export PDF',
     exportPng: 'Export PNG',
     exportJpg: 'Export JPG',
