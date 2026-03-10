@@ -1,5 +1,6 @@
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
+import DOMPurify from 'dompurify';
 
 function getEditorContentElement() {
   return document.querySelector('.toastui-editor-contents');
@@ -9,7 +10,7 @@ function createExportContainer(contentEl) {
   const container = document.createElement('div');
   container.style.cssText =
     'position:absolute;left:-9999px;top:0;background:#fff;padding:40px;width:800px;';
-  container.innerHTML = contentEl.innerHTML;
+  container.innerHTML = DOMPurify.sanitize(contentEl.innerHTML);
 
   const computedStyle = window.getComputedStyle(contentEl);
   container.style.fontFamily = computedStyle.fontFamily;

@@ -47,12 +47,14 @@ export function loadFonts() {
     `;
   }
 
-  css += `
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;700&display=swap');
-  `;
-
   style.textContent = css;
   document.head.appendChild(style);
+
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href =
+    'https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;700&display=swap';
+  document.head.appendChild(link);
 }
 
 export function applyFont(fontName) {
