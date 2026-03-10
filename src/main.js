@@ -186,7 +186,8 @@ function bindEvents() {
       showToast(t('ui.exporting'), 'success');
       await exportToPdf();
       showToast(t('ui.exportSuccess'), 'success');
-    } catch {
+    } catch (err) {
+      console.error('PDF export failed:', err);
       showToast(t('ui.exportError'), 'error');
     }
   });
@@ -196,7 +197,8 @@ function bindEvents() {
       showToast(t('ui.exporting'), 'success');
       await exportToImage('png');
       showToast(t('ui.exportSuccess'), 'success');
-    } catch {
+    } catch (err) {
+      console.error('PNG export failed:', err);
       showToast(t('ui.exportError'), 'error');
     }
   });
@@ -206,7 +208,8 @@ function bindEvents() {
       showToast(t('ui.exporting'), 'success');
       await exportToImage('jpg');
       showToast(t('ui.exportSuccess'), 'success');
-    } catch {
+    } catch (err) {
+      console.error('JPG export failed:', err);
       showToast(t('ui.exportError'), 'error');
     }
   });

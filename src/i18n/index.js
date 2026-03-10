@@ -13,6 +13,7 @@ const locales = {
 let currentLang = localStorage.getItem('ug-editor-lang') || 'en';
 
 export function t(key) {
+  if (!key || typeof key !== 'string') return key;
   const locale = locales[currentLang];
   if (!locale) return key;
   const keys = key.split('.');
