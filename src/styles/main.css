@@ -1,0 +1,230 @@
+:root {
+  --primary: #4a90d9;
+  --primary-hover: #357abd;
+  --bg: #f5f5f5;
+  --surface: #ffffff;
+  --text: #333333;
+  --text-secondary: #666666;
+  --border: #ddd;
+  --toolbar-bg: #fafafa;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Header */
+.header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  z-index: 100;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.app-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--primary);
+  white-space: nowrap;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.control-group label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+select, button {
+  font-family: inherit;
+  font-size: 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 4px 8px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+select:hover, button:hover {
+  border-color: var(--primary);
+}
+
+select:focus, button:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(74, 144, 217, 0.2);
+}
+
+.btn-export {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+  font-weight: 500;
+}
+
+.btn-export:hover {
+  background: var(--primary-hover);
+  border-color: var(--primary-hover);
+}
+
+.btn-export:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* RTL Toggle */
+.rtl-toggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.rtl-toggle input[type='checkbox'] {
+  cursor: pointer;
+}
+
+/* Editor container */
+.editor-container {
+  flex: 1;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-container .toastui-editor-defaultUI {
+  border: none;
+  border-radius: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-container .toastui-editor-defaultUI .toastui-editor-main {
+  flex: 1;
+}
+
+/* RTL support for editor content */
+.editor-rtl .toastui-editor-contents,
+.editor-rtl .ProseMirror {
+  direction: rtl;
+  text-align: right;
+}
+
+.editor-rtl .toastui-editor-md-container .toastui-editor-md-preview .toastui-editor-contents {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Toast notification */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: #333;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  z-index: 10000;
+  transition: transform 0.3s ease;
+  max-width: 90%;
+  text-align: center;
+}
+
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+}
+
+.toast.success {
+  background: #2e7d32;
+}
+
+.toast.error {
+  background: #c62828;
+}
+
+/* RTL body */
+[dir='rtl'] .header-top {
+  flex-direction: row-reverse;
+}
+
+[dir='rtl'] .header-controls {
+  flex-direction: row-reverse;
+}
+
+[dir='rtl'] .control-group {
+  flex-direction: row-reverse;
+}
+
+[dir='rtl'] .rtl-toggle {
+  flex-direction: row-reverse;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header-top {
+    padding: 8px 12px;
+  }
+
+  .app-title {
+    font-size: 1rem;
+    width: 100%;
+    text-align: center;
+  }
+
+  .header-controls {
+    width: 100%;
+    justify-content: center;
+  }
+
+  select, button {
+    font-size: 0.8rem;
+    padding: 4px 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .control-group label {
+    display: none;
+  }
+}
