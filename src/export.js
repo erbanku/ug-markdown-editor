@@ -60,6 +60,16 @@ export async function exportToPdf() {
   }
 }
 
+export async function exportToMarkdown(markdown) {
+  const blob = new Blob([markdown], { type: 'text/markdown;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.download = 'document.md';
+  link.href = url;
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
 export async function exportToImage(format = 'png') {
   const contentEl = getEditorContentElement();
   if (!contentEl) throw new Error('Editor content not found');

@@ -86,6 +86,19 @@ body {
   font-weight: 500;
 }
 
+/* Header actions group */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.word-count {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+}
+
 .settings-toggle {
   appearance: none;
   background: var(--surface);
@@ -337,7 +350,83 @@ body {
   background: rgba(220, 38, 38, 0.95);
 }
 
-/* RTL adjustments */
+/* Clear editor button */
+.btn-clear {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ef4444;
+  border-radius: var(--radius);
+  background: transparent;
+  color: #ef4444;
+  font-size: 0.875rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-clear:hover {
+  background: #fef2f2;
+  border-color: #dc2626;
+  color: #dc2626;
+}
+
+.btn-clear:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+}
+
+/* Dark mode */
+.dark-mode {
+  --bg: #0f172a;
+  --surface: #1e293b;
+  --surface-hover: #334155;
+  --text: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-tertiary: #64748b;
+  --border: #334155;
+  --border-light: #1e293b;
+  --primary: #60a5fa;
+  --primary-hover: #3b82f6;
+  --primary-light: rgba(96, 165, 250, 0.15);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+}
+
+.dark-mode .toastui-editor-defaultUI,
+.dark-mode .toastui-editor-toolbar,
+.dark-mode .toastui-editor-md-container,
+.dark-mode .toastui-editor-md-container textarea,
+.dark-mode .toastui-editor-md-text,
+.dark-mode .toastui-editor-contents,
+.dark-mode .ProseMirror {
+  background: var(--surface) !important;
+  color: var(--text) !important;
+}
+
+.dark-mode .toastui-editor-md-preview .toastui-editor-contents {
+  background: var(--bg) !important;
+  color: var(--text) !important;
+}
+
+.dark-mode .toastui-editor-toolbar-icons {
+  color: var(--text-secondary);
+}
+
+.dark-mode .toastui-editor-toolbar-icons:hover {
+  background: var(--surface-hover);
+}
+
+.dark-mode .btn-clear:hover {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+@media (max-width: 768px) {
+  .word-count {
+    display: none;
+  }
+}
+
 [dir='rtl'] .app-branding {
   flex-direction: row-reverse;
 }

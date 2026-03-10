@@ -4,11 +4,12 @@ import './styles/main.css';
 import Editor from '@toast-ui/editor';
 import { t, getCurrentLang, getCurrentDir, setLang, getAvailableLanguages } from './i18n/index.js';
 import { getFonts, loadFonts, applyFont } from './fonts.js';
-import { exportToPdf, exportToImage } from './export.js';
+import { exportToPdf, exportToImage, exportToMarkdown } from './export.js';
 
 let editor = null;
-let currentFont = 'Noto Naskh Arabic';
-let rtlEnabled = false;
+let currentFont = localStorage.getItem('ug-editor-font') || 'Noto Naskh Arabic';
+let rtlEnabled = localStorage.getItem('ug-editor-rtl') === 'true';
+let darkMode = localStorage.getItem('ug-editor-dark') === 'true';
 
 function showToast(message, type = 'success') {
   const existing = document.querySelector('.toast');
@@ -38,7 +39,10 @@ function buildUI() {
   document.documentElement.setAttribute('lang', lang);
   document.title = t('ui.title');
 
-  rtlEnabled = lang === 'ug-arabic';
+  // Only set rtlEnabled from language default if the user has no saved preference
+  if (localStorage.getItem('ug-editor-rtl') === null) {
+    rtlEnabled = lang === 'ug-arabic';
+  }
 
   const fonts = getFonts();
   const languages = getAvailableLanguages();
@@ -50,12 +54,15 @@ function buildUI() {
           <h1 class="app-title">${t('ui.title')}</h1>
           <span class="app-mode-badge">${t('ui.sourcePane')} · ${t('ui.previewPane')}</span>
         </div>
-        <button class="settings-toggle" id="settings-toggle" aria-label="Settings">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="3"></circle>
-            <path d="M12 1v6m0 6v6m5.66-15.66l-4.24 4.24m0 6.84l-4.24 4.24M23 12h-6m-6 0H1m15.66 5.66l-4.24-4.24m0-6.84l-4.24-4.24"></path>
-          </svg>
-        </button>
+        <div class="header-actions">
+          <span class="word-count" id="word-count" aria-live="polite"></span>
+          <button class="settings-toggle" id="settings-toggle" aria-label="Settings">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M12 1v6m0 6v6m5.66-15.66l-4.24 4.24m0 6.84l-4.24 4.24M23 12h-6m-6 0H1m15.66 5.66l-4.24-4.24m0-6.84l-4.24-4.24"></path>
+            </svg>
+          </button>
+        </div>
       </div>
 
       <div class="settings-panel" id="settings-panel">
@@ -94,12 +101,24 @@ function buildUI() {
           </div>
 
           <div class="settings-section">
+            <label class="checkbox-label">
+              <input type="checkbox" id="dark-mode-checkbox" ${darkMode ? 'checked' : ''}>
+              <span>${t('ui.darkMode')}</span>
+            </label>
+          </div>
+
+          <div class="settings-section">
             <h3 class="settings-title">${t('ui.export')}</h3>
             <div class="export-buttons">
               <button class="btn-export" id="btn-pdf">${t('ui.exportPdf')}</button>
               <button class="btn-export" id="btn-png">${t('ui.exportPng')}</button>
               <button class="btn-export" id="btn-jpg">${t('ui.exportJpg')}</button>
+              <button class="btn-export" id="btn-md">${t('ui.exportMd')}</button>
             </div>
+          </div>
+
+          <div class="settings-section">
+            <button class="btn-clear" id="btn-clear">${t('ui.clearEditor')}</button>
           </div>
         </div>
       </div>
@@ -110,6 +129,7 @@ function buildUI() {
     </div>
   `;
 
+  applyDarkMode(darkMode);
   initEditor();
   bindEvents();
   applyFont(currentFont);
@@ -152,19 +172,21 @@ function initEditor() {
     autofocus: false,
   });
 
-  // Auto-save with debouncing
+  // Auto-save with debouncing and update word count
   let saveTimeout;
   editor.on('change', () => {
     clearTimeout(saveTimeout);
     saveTimeout = setTimeout(() => {
       const md = editor.getMarkdown();
       localStorage.setItem('ug-editor-content', md);
+      updateWordCount(md);
     }, 500);
   });
 
   // Ensure the editor is properly initialized and focusable
   setTimeout(() => {
     applyRtl(rtlEnabled);
+    updateWordCount(editor.getMarkdown());
     // Focus the editor after initialization
     try {
       const markdownEditor = document.querySelector('.toastui-editor-md-container .toastui-editor-md-text');
@@ -197,6 +219,19 @@ function applyRtl(enabled) {
 
 function applyFontSize(size) {
   applyEditorStyles({ fontSize: `${size}px` });
+}
+
+function applyDarkMode(enabled) {
+  document.documentElement.classList.toggle('dark-mode', enabled);
+}
+
+function updateWordCount(markdown) {
+  const el = document.getElementById('word-count');
+  if (!el) return;
+  const text = markdown.replace(/```[\s\S]*?```/g, '').replace(/`[^`]*`/g, '').replace(/\s+/g, ' ').trim();
+  const words = text ? text.split(/\s+/).length : 0;
+  const chars = markdown.length;
+  el.textContent = `${words} ${t('ui.wordCount')} · ${chars} ${t('ui.charCount')}`;
 }
 
 function bindEvents() {
@@ -233,6 +268,7 @@ function bindEvents() {
 
   document.getElementById('font-select')?.addEventListener('change', (e) => {
     currentFont = e.target.value;
+    localStorage.setItem('ug-editor-font', currentFont);
     applyFont(currentFont);
   });
 
@@ -242,7 +278,14 @@ function bindEvents() {
 
   document.getElementById('rtl-checkbox')?.addEventListener('change', (e) => {
     rtlEnabled = e.target.checked;
+    localStorage.setItem('ug-editor-rtl', rtlEnabled);
     applyRtl(rtlEnabled);
+  });
+
+  document.getElementById('dark-mode-checkbox')?.addEventListener('change', (e) => {
+    darkMode = e.target.checked;
+    localStorage.setItem('ug-editor-dark', darkMode);
+    applyDarkMode(darkMode);
   });
 
   document.getElementById('btn-pdf')?.addEventListener('click', async () => {
@@ -277,6 +320,24 @@ function bindEvents() {
       showToast(t('ui.exportError'), 'error');
     }
   });
+
+  document.getElementById('btn-md')?.addEventListener('click', async () => {
+    try {
+      const markdown = editor?.getMarkdown() || '';
+      await exportToMarkdown(markdown);
+      showToast(t('ui.exportSuccess'), 'success');
+    } catch (err) {
+      console.error('Markdown export failed:', err);
+      showToast(t('ui.exportError'), 'error');
+    }
+  });
+
+  document.getElementById('btn-clear')?.addEventListener('click', () => {
+    if (window.confirm(t('ui.clearConfirm'))) {
+      editor?.setMarkdown('');
+      localStorage.removeItem('ug-editor-content');
+    }
+  });
 }
 
 function init() {
@@ -289,3 +350,4 @@ if (document.readyState === 'loading') {
 } else {
   init();
 }
+
