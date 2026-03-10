@@ -7,7 +7,7 @@ import { getFonts, loadFonts, applyFont } from './fonts.js';
 import { exportToPdf, exportToImage } from './export.js';
 
 let editor = null;
-let currentFont = 'Default';
+let currentFont = 'Noto Naskh Arabic';
 let rtlEnabled = false;
 
 function showToast(message, type = 'success') {
@@ -36,56 +36,70 @@ function buildUI() {
 
   document.documentElement.setAttribute('dir', dir);
   document.documentElement.setAttribute('lang', lang);
+  document.title = t('ui.title');
 
-  if (lang === 'ug-arabic') {
-    rtlEnabled = true;
-  }
+  rtlEnabled = lang === 'ug-arabic';
 
   const fonts = getFonts();
   const languages = getAvailableLanguages();
 
   app.innerHTML = `
-    <div class="header">
-      <div class="header-top">
-        <h1 class="app-title">${t('ui.title')}</h1>
-        <div class="header-controls">
-          <div class="control-group">
-            <label for="lang-select">${t('ui.language')}:</label>
-            <select id="lang-select">
-              ${languages.map((l) => `<option value="${l.code}" ${l.code === lang ? 'selected' : ''}>${l.label}</option>`).join('')}
-            </select>
+    <div class="app-shell">
+      <div class="header">
+        <div class="header-top">
+          <div class="hero-copy">
+            <span class="hero-badge">${t('ui.sourcePane')} · ${t('ui.previewPane')}</span>
+            <h1 class="app-title">${t('ui.title')}</h1>
+            <p class="app-subtitle">${t('ui.subtitle')}</p>
           </div>
-          <div class="control-group">
-            <label for="font-select">${t('ui.font')}:</label>
-            <select id="font-select">
-              ${fonts.map((f) => `<option value="${f.name}" ${f.name === currentFont ? 'selected' : ''}>${f.name}</option>`).join('')}
-            </select>
-          </div>
-          <div class="control-group">
-            <label for="font-size">${t('ui.fontSize')}:</label>
-            <select id="font-size">
-              <option value="14">14px</option>
-              <option value="16" selected>16px</option>
-              <option value="18">18px</option>
-              <option value="20">20px</option>
-              <option value="24">24px</option>
-              <option value="28">28px</option>
-            </select>
-          </div>
-          <div class="rtl-toggle">
-            <label for="rtl-checkbox">${t('ui.rtlMode')}</label>
-            <input type="checkbox" id="rtl-checkbox" ${rtlEnabled ? 'checked' : ''}>
-          </div>
-          <div class="control-group export-buttons">
-            <button class="btn-export" id="btn-pdf">${t('ui.exportPdf')}</button>
-            <button class="btn-export" id="btn-png">${t('ui.exportPng')}</button>
-            <button class="btn-export" id="btn-jpg">${t('ui.exportJpg')}</button>
+          <div class="header-controls">
+            <div class="control-group">
+              <label for="lang-select">${t('ui.language')}</label>
+              <select id="lang-select">
+                ${languages.map((l) => `<option value="${l.code}" ${l.code === lang ? 'selected' : ''}>${l.label}</option>`).join('')}
+              </select>
+            </div>
+            <div class="control-group">
+              <label for="font-select">${t('ui.font')}</label>
+              <select id="font-select">
+                ${fonts.map((f) => `<option value="${f.name}" ${f.name === currentFont ? 'selected' : ''}>${f.name}</option>`).join('')}
+              </select>
+            </div>
+            <div class="control-group">
+              <label for="font-size">${t('ui.fontSize')}</label>
+              <select id="font-size">
+                <option value="14">14px</option>
+                <option value="16" selected>16px</option>
+                <option value="18">18px</option>
+                <option value="20">20px</option>
+                <option value="24">24px</option>
+                <option value="28">28px</option>
+              </select>
+            </div>
+            <div class="control-group rtl-toggle">
+              <label for="rtl-checkbox">${t('ui.rtlMode')}</label>
+              <input type="checkbox" id="rtl-checkbox" ${rtlEnabled ? 'checked' : ''}>
+            </div>
+            <div class="control-group export-buttons">
+              <label>${t('ui.export')}</label>
+              <div class="button-row">
+                <button class="btn-export" id="btn-pdf">${t('ui.exportPdf')}</button>
+                <button class="btn-export" id="btn-png">${t('ui.exportPng')}</button>
+                <button class="btn-export" id="btn-jpg">${t('ui.exportJpg')}</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="editor-container ${rtlEnabled ? 'editor-rtl' : ''}">
-      <div id="editor"></div>
+      <div class="workspace">
+        <div class="workspace-header">
+          <div class="workspace-pane-label">${t('ui.sourcePane')}</div>
+          <div class="workspace-pane-label">${t('ui.previewPane')}</div>
+        </div>
+        <div class="editor-container ${rtlEnabled ? 'editor-rtl' : ''}">
+          <div id="editor"></div>
+        </div>
+      </div>
     </div>
   `;
 
@@ -93,6 +107,18 @@ function buildUI() {
   bindEvents();
   applyFont(currentFont);
   applyFontSize(16);
+}
+
+function applyEditorStyles(styles) {
+  const targets = document.querySelectorAll(
+    '.toastui-editor-contents, .ProseMirror, .toastui-editor-md-container textarea, .toastui-editor-md-text'
+  );
+
+  for (const target of targets) {
+    Object.entries(styles).forEach(([key, value]) => {
+      target.style[key] = value;
+    });
+  }
 }
 
 function initEditor() {
@@ -103,9 +129,10 @@ function initEditor() {
 
   editor = new Editor({
     el: editorEl,
-    height: 'calc(100vh - 60px)',
-    initialEditType: 'wysiwyg',
+    height: '100%',
+    initialEditType: 'markdown',
     previewStyle: 'vertical',
+    hideModeSwitch: true,
     initialValue: savedContent || `# ${t('ui.title')}\n\n${t('ui.editorPlaceholder')}`,
     usageStatistics: false,
     toolbarItems: [
@@ -122,41 +149,29 @@ function initEditor() {
     localStorage.setItem('ug-editor-content', md);
   });
 
-  if (rtlEnabled) {
-    applyRtl(true);
-  }
+  applyRtl(rtlEnabled);
 }
 
 function applyRtl(enabled) {
   const container = document.querySelector('.editor-container');
   if (!container) return;
 
-  if (enabled) {
-    container.classList.add('editor-rtl');
-  } else {
-    container.classList.remove('editor-rtl');
-  }
+  container.classList.toggle('editor-rtl', enabled);
 
-  const editorContent = document.querySelector('.toastui-editor-contents');
-  const editorInput = document.querySelector('.ProseMirror');
+  applyEditorStyles({
+    direction: enabled ? 'rtl' : 'ltr',
+    textAlign: enabled ? 'right' : 'left',
+  });
 
-  if (editorContent) {
-    editorContent.style.direction = enabled ? 'rtl' : 'ltr';
-    editorContent.style.textAlign = enabled ? 'right' : 'left';
-  }
-  if (editorInput) {
-    editorInput.style.direction = enabled ? 'rtl' : 'ltr';
-    editorInput.style.textAlign = enabled ? 'right' : 'left';
+  const previewContent = document.querySelector('.toastui-editor-md-preview .toastui-editor-contents');
+  if (previewContent) {
+    previewContent.style.direction = enabled ? 'rtl' : 'ltr';
+    previewContent.style.textAlign = enabled ? 'right' : 'left';
   }
 }
 
 function applyFontSize(size) {
-  const editorContent = document.querySelector('.toastui-editor-contents');
-  const editorInput = document.querySelector('.ProseMirror');
-  const px = `${size}px`;
-
-  if (editorContent) editorContent.style.fontSize = px;
-  if (editorInput) editorInput.style.fontSize = px;
+  applyEditorStyles({ fontSize: `${size}px` });
 }
 
 function bindEvents() {

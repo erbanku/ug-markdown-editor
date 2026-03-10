@@ -61,13 +61,13 @@ export function applyFont(fontName) {
   const font = FONTS.find((f) => f.name === fontName);
   if (!font) return;
 
-  const editorContent = document.querySelector('.toastui-editor-contents');
-  const editorInput = document.querySelector('.ProseMirror');
+  document.documentElement.style.setProperty('--app-font-family', font.family);
 
-  if (editorContent) {
-    editorContent.style.fontFamily = font.family;
-  }
-  if (editorInput) {
-    editorInput.style.fontFamily = font.family;
+  const fontTargets = document.querySelectorAll(
+    '.toastui-editor-contents, .ProseMirror, .toastui-editor-md-container textarea, .toastui-editor-md-text'
+  );
+
+  for (const target of fontTargets) {
+    target.style.fontFamily = font.family;
   }
 }

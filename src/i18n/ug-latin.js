@@ -4,9 +4,12 @@ export default {
   label: 'Uyghurche (Latin)',
   ui: {
     title: 'Uyghurche Markdown Tehrirliguchi',
+    subtitle: 'Pakiz, ikki qanatliq xizmet meydanida Markdown yezing we aldinkini derhal korung.',
     language: 'Til',
     font: 'Xet',
     fontSize: 'Chongliq',
+    sourcePane: 'Markdown Menbesi',
+    previewPane: 'Deral Aldin Korush',
     exportPdf: 'PDF chiqirish',
     exportPng: 'PNG chiqirish',
     exportJpg: 'JPG chiqirish',
