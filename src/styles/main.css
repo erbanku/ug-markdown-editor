@@ -278,12 +278,20 @@ body {
   font-family: var(--app-font-family) !important;
   font-size: 16px;
   line-height: 1.7;
+  cursor: text;
+  user-select: text;
 }
 
 .editor-container .toastui-editor-md-container textarea,
 .editor-container .toastui-editor-md-text {
   background: var(--surface);
   color: var(--text);
+  pointer-events: auto !important;
+}
+
+.editor-container .toastui-editor-md-container textarea:focus,
+.editor-container .toastui-editor-md-text:focus {
+  outline: none;
 }
 
 .editor-container .toastui-editor-md-preview .toastui-editor-contents {

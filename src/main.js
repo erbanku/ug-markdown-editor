@@ -149,14 +149,32 @@ function initEditor() {
       ['table', 'link'],
       ['code', 'codeblock'],
     ],
+    autofocus: false,
   });
 
+  // Auto-save with debouncing
+  let saveTimeout;
   editor.on('change', () => {
-    const md = editor.getMarkdown();
-    localStorage.setItem('ug-editor-content', md);
+    clearTimeout(saveTimeout);
+    saveTimeout = setTimeout(() => {
+      const md = editor.getMarkdown();
+      localStorage.setItem('ug-editor-content', md);
+    }, 500);
   });
 
-  applyRtl(rtlEnabled);
+  // Ensure the editor is properly initialized and focusable
+  setTimeout(() => {
+    applyRtl(rtlEnabled);
+    // Focus the editor after initialization
+    try {
+      const markdownEditor = document.querySelector('.toastui-editor-md-container .toastui-editor-md-text');
+      if (markdownEditor) {
+        markdownEditor.focus();
+      }
+    } catch (err) {
+      console.warn('Could not focus editor:', err);
+    }
+  }, 100);
 }
 
 function applyRtl(enabled) {
@@ -185,7 +203,8 @@ function bindEvents() {
   const settingsToggle = document.getElementById('settings-toggle');
   const settingsPanel = document.getElementById('settings-panel');
 
-  settingsToggle?.addEventListener('click', () => {
+  settingsToggle?.addEventListener('click', (e) => {
+    e.stopPropagation();
     const isOpen = settingsPanel.classList.contains('open');
     settingsPanel.classList.toggle('open', !isOpen);
     settingsToggle.setAttribute('aria-expanded', !isOpen);
@@ -193,6 +212,12 @@ function bindEvents() {
 
   // Close settings when clicking outside
   document.addEventListener('click', (e) => {
+    // Don't interfere with editor interactions
+    const editorContainer = document.querySelector('.editor-container');
+    if (editorContainer?.contains(e.target)) {
+      return;
+    }
+
     if (!settingsPanel?.contains(e.target) && !settingsToggle?.contains(e.target)) {
       settingsPanel?.classList.remove('open');
       settingsToggle?.setAttribute('aria-expanded', 'false');
