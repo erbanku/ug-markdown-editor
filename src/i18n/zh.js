@@ -8,7 +8,7 @@ export default {
     language: '\u8BED\u8A00',
     font: '\u5B57\u4F53',
     fontSize: '\u5B57\u53F7',
-    sourcePane: 'Markdown \u6E90\u7801',
+    sourcePane: 'Markdown \u6E90\u4EE3\u7801',
     previewPane: '\u5B9E\u65F6\u9884\u89C8',
     exportPdf: '\u5BFC\u51FA PDF',
     exportPng: '\u5BFC\u51FA PNG',
