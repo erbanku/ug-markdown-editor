@@ -1,0 +1,21 @@
+export default {
+  lang: 'zh',
+  dir: 'ltr',
+  label: '\u7B80\u4F53\u4E2D\u6587',
+  ui: {
+    title: '\u7EF4\u543E\u5C14\u8BED Markdown \u7F16\u8F91\u5668',
+    language: '\u8BED\u8A00',
+    font: '\u5B57\u4F53',
+    fontSize: '\u5B57\u53F7',
+    exportPdf: '\u5BFC\u51FA PDF',
+    exportPng: '\u5BFC\u51FA PNG',
+    exportJpg: '\u5BFC\u51FA JPG',
+    export: '\u5BFC\u51FA',
+    rtlMode: 'RTL \u6A21\u5F0F',
+    editorPlaceholder: '\u5728\u6B64\u5F00\u59CB\u7F16\u5199 Markdown...',
+    exporting: '\u6B63\u5728\u5BFC\u51FA...',
+    exportSuccess: '\u5BFC\u51FA\u6210\u529F\uFF01',
+    exportError: '\u5BFC\u51FA\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5\u3002',
+    defaultFont: '\u9ED8\u8BA4\u5B57\u4F53',
+  },
+};

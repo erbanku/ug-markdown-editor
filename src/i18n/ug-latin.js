@@ -1,0 +1,21 @@
+export default {
+  lang: 'ug-latin',
+  dir: 'ltr',
+  label: 'Uyghurche (Latin)',
+  ui: {
+    title: 'Uyghurche Markdown Tehrirliguchi',
+    language: 'Til',
+    font: 'Xet',
+    fontSize: 'Chongliq',
+    exportPdf: 'PDF chiqirish',
+    exportPng: 'PNG chiqirish',
+    exportJpg: 'JPG chiqirish',
+    export: 'Chiqirish',
+    rtlMode: 'RTL Haliti',
+    editorPlaceholder: 'Markdown yezishni bu yerdin bashlang...',
+    exporting: 'Chiqirilwatidu...',
+    exportSuccess: 'Chiqirish muweppeqiyetlik boldi!',
+    exportError: 'Chiqirish meghlup boldi. Qayta sinap beqing.',
+    defaultFont: 'Kelkuche Xet',
+  },
+};

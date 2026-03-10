@@ -1,0 +1,21 @@
+export default {
+  lang: 'en',
+  dir: 'ltr',
+  label: 'English',
+  ui: {
+    title: 'Uyghur Markdown Editor',
+    language: 'Language',
+    font: 'Font',
+    fontSize: 'Size',
+    exportPdf: 'Export PDF',
+    exportPng: 'Export PNG',
+    exportJpg: 'Export JPG',
+    export: 'Export',
+    rtlMode: 'RTL Mode',
+    editorPlaceholder: 'Start writing your Markdown here...',
+    exporting: 'Exporting...',
+    exportSuccess: 'Export successful!',
+    exportError: 'Export failed. Please try again.',
+    defaultFont: 'Default Font',
+  },
+};
