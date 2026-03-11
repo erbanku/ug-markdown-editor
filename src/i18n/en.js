@@ -20,5 +20,11 @@ export default {
     exportSuccess: 'Export successful!',
     exportError: 'Export failed. Please try again.',
     defaultFont: 'Default Font',
+    exportMd: 'Export Markdown',
+    darkMode: 'Dark Mode',
+    wordCount: 'Words',
+    charCount: 'Chars',
+    clearEditor: 'Clear Editor',
+    clearConfirm: 'Clear all content? This cannot be undone.',
   },
 };

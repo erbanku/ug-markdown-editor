@@ -20,5 +20,11 @@ export default {
     exportSuccess: '\u5BFC\u51FA\u6210\u529F\uFF01',
     exportError: '\u5BFC\u51FA\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5\u3002',
     defaultFont: '\u9ED8\u8BA4\u5B57\u4F53',
+    exportMd: '\u5BFC\u51FA Markdown',
+    darkMode: '\u6DF1\u8272\u6A21\u5F0F',
+    wordCount: '\u5B57\u6570',
+    charCount: '\u5B57\u7B26',
+    clearEditor: '\u6E05\u7A7A\u7F16\u8F91\u5668',
+    clearConfirm: '\u786E\u8BA4\u6E05\u7A7A\u6240\u6709\u5185\u5BB9\uFF1F\u6B64\u64CD\u4F5C\u65E0\u6CD5\u6062\u590D\u3002',
   },
 };

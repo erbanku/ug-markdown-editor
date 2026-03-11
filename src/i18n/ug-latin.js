@@ -20,5 +20,11 @@ export default {
     exportSuccess: 'Chiqirish muweppeqiyetlik boldi!',
     exportError: 'Chiqirish meghlup boldi. Qayta sinap beqing.',
     defaultFont: 'Kelkuche Xet',
+    exportMd: 'Markdown chiqirish',
+    darkMode: 'Qarangghu Haliti',
+    wordCount: 'Soz',
+    charCount: 'Herf',
+    clearEditor: 'Tehrirliguchni tozitish',
+    clearConfirm: 'Hemme mezmunni tozitamsiz? Bu qilishni yengiwal bolmaydu.',
   },
 };
