@@ -7,7 +7,7 @@ import { getFonts, loadFonts, applyFont } from './fonts.js';
 import { exportToPdf, exportToImage, exportToMarkdown } from './export.js';
 
 let editor = null;
-let currentFont = localStorage.getItem('ug-editor-font') || 'Noto Naskh Arabic';
+let currentFont = localStorage.getItem('ug-editor-font') || 'ALKATIP Basma';
 let rtlEnabled = localStorage.getItem('ug-editor-rtl') === 'true';
 let darkMode = localStorage.getItem('ug-editor-dark') === 'true';
 let fontSize = parseInt(localStorage.getItem('ug-editor-font-size'), 10) || 16;
@@ -58,7 +58,7 @@ function buildUI() {
         <div class="hero-text">
           <p class="eyebrow">${t('ui.previewPane')}</p>
           <h1 class="hero-title">${t('ui.title')}</h1>
-          <p class="hero-sub">${t('ui.editorPlaceholder')}</p>
+          <p class="hero-sub">${t('ui.subtitle')}</p>
           <div class="stat-pills">
             <span class="pill word-count" id="word-count" aria-live="polite">0 ${t('ui.wordCount')} · 0 ${t('ui.charCount')}</span>
             <span class="pill">${t('ui.sourcePane')}</span>
@@ -66,8 +66,14 @@ function buildUI() {
           </div>
         </div>
         <div class="hero-actions">
-          <button class="btn-primary" id="btn-pdf">${t('ui.exportPdf')}</button>
-          <button class="btn-ghost" id="btn-md">${t('ui.exportMd')}</button>
+          <div class="meta-stack">
+            <span class="pill soft">${t('ui.language')}</span>
+            <span class="pill soft">${t('ui.defaultFont')}: ${currentFont}</span>
+          </div>
+          <div class="hero-buttons">
+            <button class="btn-primary" id="btn-pdf">${t('ui.exportPdf')}</button>
+            <button class="btn-ghost" id="btn-md">${t('ui.exportMd')}</button>
+          </div>
         </div>
       </header>
 

@@ -1,23 +1,23 @@
 :root {
-  --app-font-family: 'Noto Naskh Arabic', 'Noto Sans Arabic', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --bg: #050914;
-  --bg-accent: radial-gradient(circle at 20% 20%, rgba(96, 165, 250, 0.08), transparent 35%),
-    radial-gradient(circle at 80% 0%, rgba(236, 72, 153, 0.1), transparent 30%),
-    radial-gradient(circle at 50% 100%, rgba(94, 234, 212, 0.08), transparent 30%);
-  --surface: rgba(16, 24, 40, 0.85);
-  --surface-strong: rgba(20, 30, 48, 0.9);
-  --text: #e2e8f0;
-  --text-muted: #a3b1c2;
-  --text-faint: #7b8795;
-  --border: rgba(148, 163, 184, 0.25);
-  --primary: #7dd3fc;
-  --primary-strong: #38bdf8;
-  --primary-soft: rgba(125, 211, 252, 0.15);
-  --danger: #f87171;
-  --danger-soft: rgba(248, 113, 113, 0.12);
-  --panel-radius: 18px;
-  --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-  --blur: blur(18px);
+  --app-font-family: 'ALKATIP Basma', 'Noto Naskh Arabic', 'Noto Sans Arabic', -apple-system, system-ui, serif;
+  --bg: #f6f7fb;
+  --bg-accent: radial-gradient(circle at 20% 20%, rgba(10, 132, 255, 0.06), transparent 35%),
+    radial-gradient(circle at 80% 0%, rgba(108, 92, 231, 0.05), transparent 30%),
+    radial-gradient(circle at 50% 90%, rgba(52, 199, 89, 0.05), transparent 30%);
+  --surface: #ffffff;
+  --surface-strong: #f9fafb;
+  --text: #0f172a;
+  --text-muted: #475569;
+  --text-faint: #94a3b8;
+  --border: #e5e7eb;
+  --primary: #0a84ff;
+  --primary-strong: #0a7ae7;
+  --primary-soft: rgba(10, 132, 255, 0.12);
+  --danger: #d63939;
+  --danger-soft: rgba(214, 57, 57, 0.12);
+  --panel-radius: 20px;
+  --shadow: 0 24px 70px rgba(15, 23, 42, 0.12);
+  --blur: blur(16px);
 }
 
 * {
@@ -33,10 +33,11 @@ body {
 body {
   font-family: var(--app-font-family);
   background: var(--bg);
-  background-image: var(--bg-accent);
+  background-image: var(--bg-accent), linear-gradient(145deg, #f8fbff 0%, #f6f7fb 60%, #f5f3ff 100%);
   color: var(--text);
-  line-height: 1.6;
+  line-height: 1.7;
   padding: 28px;
+  -webkit-font-smoothing: antialiased;
 }
 
 #app,
@@ -49,10 +50,12 @@ body {
 
 .page-shell {
   gap: 20px;
+  width: min(1220px, 100%);
+  margin: 0 auto;
 }
 
 .top-hero {
-  background: var(--surface);
+  background: linear-gradient(145deg, #ffffff 0%, #f7f8fd 100%);
   border: 1px solid var(--border);
   border-radius: var(--panel-radius);
   padding: 28px;
@@ -79,14 +82,15 @@ body {
 
 .hero-title {
   margin: 0;
-  font-size: clamp(1.6rem, 2vw, 2.1rem);
+  font-size: clamp(1.8rem, 2vw, 2.4rem);
   font-weight: 700;
 }
 
 .hero-sub {
   margin: 0;
   color: var(--text-muted);
-  max-width: 640px;
+  max-width: 760px;
+  font-size: 1.02rem;
 }
 
 .stat-pills {
@@ -108,15 +112,29 @@ body {
 }
 
 .pill.soft {
-  background: rgba(255, 255, 255, 0.05);
+  background: #f1f5f9;
   color: var(--text-muted);
   border-color: var(--border);
 }
 
 .hero-actions {
   display: flex;
-  align-items: flex-start;
+  flex-direction: column;
+  align-items: flex-end;
   gap: 12px;
+  min-width: 240px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.meta-stack {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .btn-primary,
@@ -134,9 +152,9 @@ body {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--primary-strong), #60a5fa);
-  color: #0b1021;
-  box-shadow: 0 12px 30px rgba(56, 189, 248, 0.35);
+  background: linear-gradient(135deg, var(--primary), #5eb2ff);
+  color: #ffffff;
+  box-shadow: 0 12px 30px rgba(10, 132, 255, 0.25);
 }
 
 .btn-ghost {
@@ -146,7 +164,7 @@ body {
 }
 
 .btn-surface {
-  background: rgba(255, 255, 255, 0.04);
+  background: #f1f5f9;
   color: var(--text);
   border-color: var(--border);
   width: 100%;
@@ -190,11 +208,11 @@ body {
 }
 
 .control-card {
-  background: var(--surface-strong);
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--panel-radius);
   padding: 16px;
-  box-shadow: var(--shadow);
+  box-shadow: 0 16px 50px rgba(15, 23, 42, 0.08);
   backdrop-filter: var(--blur);
 }
 
@@ -219,10 +237,11 @@ select {
   padding: 12px;
   border-radius: 12px;
   border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.03);
+  background: #ffffff;
   color: var(--text);
   font-family: inherit;
   font-size: 0.95rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 .toggle {
@@ -236,7 +255,7 @@ select {
 .toggle input {
   width: 44px;
   height: 24px;
-  accent-color: var(--primary-strong);
+  accent-color: var(--primary);
   cursor: pointer;
 }
 
@@ -248,14 +267,14 @@ select {
 }
 
 .editor-surface {
-  background: var(--surface-strong);
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--panel-radius);
   padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  box-shadow: var(--shadow);
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.08);
   backdrop-filter: var(--blur);
   min-height: 70vh;
 }
@@ -272,9 +291,9 @@ select {
 }
 
 .editor-frame {
-  background: rgba(255, 255, 255, 0.02);
+  background: #f8fafc;
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: 16px;
   padding: 2px;
   height: 100%;
   min-height: 60vh;
@@ -305,7 +324,7 @@ select {
   border: 1px solid var(--border);
   border-radius: 12px;
   margin: 10px;
-  background: rgba(255, 255, 255, 0.03);
+  background: #ffffff;
 }
 
 .editor-container .toastui-editor-main {
@@ -351,7 +370,7 @@ select {
 }
 
 .editor-container .toastui-editor-md-preview .toastui-editor-contents {
-  background: rgba(255, 255, 255, 0.02);
+  background: #ffffff;
   min-height: 100%;
   color: var(--text);
 }
@@ -369,8 +388,8 @@ select {
   inset-inline-start: 50%;
   bottom: 24px;
   transform: translateX(-50%) translateY(110px);
-  background: rgba(15, 23, 42, 0.95);
-  color: #fff;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--text);
   padding: 12px 20px;
   border-radius: 12px;
   font-size: 0.9rem;
@@ -378,7 +397,8 @@ select {
   transition: transform 0.3s ease;
   max-width: min(92vw, 420px);
   text-align: center;
-  box-shadow: var(--shadow);
+  box-shadow: 0 10px 40px rgba(15, 23, 42, 0.2);
+  border: 1px solid var(--border);
 }
 
 .toast.show {
@@ -386,11 +406,11 @@ select {
 }
 
 .toast.success {
-  background: rgba(56, 189, 248, 0.9);
+  background: rgba(10, 132, 255, 0.12);
 }
 
 .toast.error {
-  background: rgba(239, 68, 68, 0.95);
+  background: rgba(214, 57, 57, 0.12);
 }
 
 .word-count {
@@ -399,17 +419,17 @@ select {
 }
 
 .dark-mode {
-  --bg: #05070f;
-  --surface: rgba(12, 17, 29, 0.95);
-  --surface-strong: rgba(13, 19, 31, 0.98);
-  --text: #f8fafc;
+  --bg: #0b1220;
+  --surface: #0f1628;
+  --surface-strong: #0c1424;
+  --text: #e2e8f0;
   --text-muted: #cbd5e1;
   --text-faint: #94a3b8;
-  --border: rgba(148, 163, 184, 0.3);
-  --primary: #7dd3fc;
-  --primary-strong: #38bdf8;
-  --primary-soft: rgba(125, 211, 252, 0.18);
-  --danger-soft: rgba(248, 113, 113, 0.18);
+  --border: rgba(148, 163, 184, 0.35);
+  --primary: #7cc3ff;
+  --primary-strong: #4aa8ff;
+  --primary-soft: rgba(74, 168, 255, 0.18);
+  --danger-soft: rgba(214, 57, 57, 0.2);
 }
 
 .dark-mode .toastui-editor-defaultUI,
@@ -456,6 +476,15 @@ select {
 
   .hero-actions {
     width: 100%;
+    align-items: flex-start;
+  }
+
+  .hero-buttons {
+    width: 100%;
+  }
+
+  .meta-stack {
+    justify-content: flex-start;
   }
 
   .btn-primary,
