@@ -10,6 +10,7 @@ let editor = null;
 let currentFont = localStorage.getItem('ug-editor-font') || 'Noto Naskh Arabic';
 let rtlEnabled = localStorage.getItem('ug-editor-rtl') === 'true';
 let darkMode = localStorage.getItem('ug-editor-dark') === 'true';
+let fontSize = parseInt(localStorage.getItem('ug-editor-font-size'), 10) || 16;
 
 function showToast(message, type = 'success') {
   const existing = document.querySelector('.toast');
@@ -84,12 +85,12 @@ function buildUI() {
           <div class="settings-section">
             <h3 class="settings-title">${t('ui.fontSize')}</h3>
             <select id="font-size">
-              <option value="14">14px</option>
-              <option value="16" selected>16px</option>
-              <option value="18">18px</option>
-              <option value="20">20px</option>
-              <option value="24">24px</option>
-              <option value="28">28px</option>
+              <option value="14" ${fontSize === 14 ? 'selected' : ''}>14px</option>
+              <option value="16" ${fontSize === 16 ? 'selected' : ''}>16px</option>
+              <option value="18" ${fontSize === 18 ? 'selected' : ''}>18px</option>
+              <option value="20" ${fontSize === 20 ? 'selected' : ''}>20px</option>
+              <option value="24" ${fontSize === 24 ? 'selected' : ''}>24px</option>
+              <option value="28" ${fontSize === 28 ? 'selected' : ''}>28px</option>
             </select>
           </div>
 
@@ -133,7 +134,7 @@ function buildUI() {
   initEditor();
   bindEvents();
   applyFont(currentFont);
-  applyFontSize(16);
+  applyFontSize(fontSize);
 }
 
 function applyEditorStyles(styles) {
@@ -273,7 +274,9 @@ function bindEvents() {
   });
 
   document.getElementById('font-size')?.addEventListener('change', (e) => {
-    applyFontSize(parseInt(e.target.value, 10));
+    fontSize = parseInt(e.target.value, 10);
+    localStorage.setItem('ug-editor-font-size', fontSize);
+    applyFontSize(fontSize);
   });
 
   document.getElementById('rtl-checkbox')?.addEventListener('change', (e) => {
