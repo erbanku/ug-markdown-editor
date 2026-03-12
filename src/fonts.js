@@ -1,4 +1,39 @@
+const CORE_FONTS = [
+  { name: 'ALKATIP Basma', file: 'ALKATIP Basma.TTF' },
+  { name: 'ALKATIP Basma Bold', file: 'ALKATIP Basma Bold.TTF', weight: 700 },
+  { name: 'ALKATIP Basma Tom', file: 'ALKATIP Basma Tom.TTF' },
+  { name: 'ALKATIP Basma Tom Bold', file: 'ALKATIP Basma Tom Bold.TTF', weight: 700 },
+  { name: 'ALKATIP Gezit', file: 'ALKATIP Gezit.TTF' },
+  { name: 'ALKATIP Gezit Tom', file: 'ALKATIP Gezit Tom.TTF' },
+  { name: 'ALKATIP Jornal', file: 'ALKATIP Jornal.TTF' },
+  { name: 'ALKATIP Jornal Tom', file: 'ALKATIP Jornal Tom.TTF' },
+  { name: 'ALKATIP Kitab', file: 'ALKATIP Kitab.TTF' },
+  { name: 'ALKATIP Kitab Tom', file: 'ALKATIP Kitab Tom.TTF' },
+  { name: 'ALKATIP Kufi', file: 'ALKATIP Kufi.TTF' },
+  { name: 'ALKATIP Marka', file: 'ALKATIP Marka.TTF' },
+  { name: 'ALKATIP Pinyin', file: 'ALKATIP Pinyin.TTF' },
+  { name: 'ALKATIP Rukki', file: 'ALKATIP Rukki.TTF' },
+  { name: 'ALKATIP Talik', file: 'ALKATIP Talik.TTF' },
+  { name: 'ALKATIP Tor', file: 'ALKATIP Tor.TTF' },
+  { name: 'ALKATIP Tor Tom', file: 'ALKATIP Tor Tom.TTF' },
+  { name: 'ALKATIP Yazma', file: 'ALKATIP Yazma.TTF' },
+  { name: 'ALKATIP Yazma Tom', file: 'ALKATIP Yazma Tom.TTF' },
+  { name: 'ALKATIP Asliya', file: 'ALKATIP Asliya.TTF' },
+  { name: 'ALKATIP Asliya 2', file: 'ALKATIP Asliya 2.TTF' },
+  { name: 'ALKATIP', file: 'ALKATIP.TTF' },
+];
+
 const FONT_DEFINITIONS = [
+  ...CORE_FONTS.map((font) => ({
+    name: font.name,
+    family: `"${font.name}", "Noto Naskh Arabic", serif`,
+    files: [
+      {
+        weight: font.weight || 400,
+        ttf: new URL(`./ug-fonts/${font.file}`, import.meta.url),
+      },
+    ],
+  })),
   {
     name: 'Noto Naskh Arabic',
     family: '"Noto Naskh Arabic", serif',
@@ -38,7 +73,11 @@ export function loadFonts() {
 
   for (const font of FONT_DEFINITIONS) {
     for (const file of font.files) {
-      const sources = [file.woff2 && `url(${file.woff2}) format('woff2')`, file.woff && `url(${file.woff}) format('woff')`]
+      const sources = [
+        file.woff2 && `url(${file.woff2}) format('woff2')`,
+        file.woff && `url(${file.woff}) format('woff')`,
+        file.ttf && `url(${file.ttf}) format('truetype')`,
+      ]
         .filter(Boolean)
         .join(',\n      ');
 
