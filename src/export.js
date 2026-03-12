@@ -3,7 +3,7 @@ import { jsPDF } from 'jspdf';
 import DOMPurify from 'dompurify';
 
 function getEditorContentElement() {
-  return document.querySelector('.toastui-editor-contents');
+  return document.querySelector('.toastui-editor-md-preview .toastui-editor-contents');
 }
 
 function createExportContainer(contentEl) {
