@@ -1,18 +1,27 @@
-import '@fontsource/noto-naskh-arabic/400.css';
-import '@fontsource/noto-naskh-arabic/700.css';
-
-const FONTS = [
-  { name: 'Default', family: 'system-ui, sans-serif', type: 'system' },
-  { name: 'UKIJ Tuz', family: '"UKIJ Tuz"', type: 'uyghur' },
-  { name: 'UKIJ Tuz Tom', family: '"UKIJ Tuz Tom"', type: 'uyghur' },
-  { name: 'UKIJ Basma', family: '"UKIJ Basma"', type: 'uyghur' },
-  { name: 'UKIJ Kufi', family: '"UKIJ Kufi"', type: 'uyghur' },
-  { name: 'UKIJ Nastaliq', family: '"UKIJ Nastaliq"', type: 'uyghur' },
-  { name: 'UKIJ Diwani', family: '"UKIJ Diwani"', type: 'uyghur' },
-  { name: 'UKIJ Qolyazma', family: '"UKIJ Qolyazma"', type: 'uyghur' },
-  { name: 'Alkatip Asliye', family: '"ALKATIP Asliye"', type: 'uyghur' },
-  { name: 'Noto Naskh Arabic', family: '"Noto Naskh Arabic", serif', type: 'bundled' },
+const FONT_DEFINITIONS = [
+  {
+    name: 'Noto Naskh Arabic',
+    family: '"Noto Naskh Arabic", serif',
+    files: [
+      {
+        weight: 400,
+        woff2: new URL('./ug-fonts/noto-naskh-arabic-arabic-400-normal.woff2', import.meta.url),
+        woff: new URL('./ug-fonts/noto-naskh-arabic-arabic-400-normal.woff', import.meta.url),
+      },
+      {
+        weight: 700,
+        woff2: new URL('./ug-fonts/noto-naskh-arabic-arabic-700-normal.woff2', import.meta.url),
+        woff: new URL('./ug-fonts/noto-naskh-arabic-arabic-700-normal.woff', import.meta.url),
+      },
+    ],
+  },
 ];
+
+const FONTS = FONT_DEFINITIONS.map(({ name, family }) => ({
+  name,
+  family,
+  type: 'bundled',
+}));
 
 let fontsLoaded = false;
 
@@ -24,35 +33,29 @@ export function loadFonts() {
   if (fontsLoaded) return;
   fontsLoaded = true;
 
-  const fontFormats = [
-    { ext: 'woff2', format: 'woff2' },
-    { ext: 'woff', format: 'woff' },
-    { ext: 'ttf', format: 'truetype' },
-  ];
-
   const style = document.createElement('style');
   let css = '';
 
-  const uyghurFonts = FONTS.filter((f) => f.type === 'uyghur');
-  for (const font of uyghurFonts) {
-    const baseName = font.name.replace(/\s+/g, '-');
-    const sources = fontFormats
-      .map((fmt) => `url('./fonts/${baseName}.${fmt.ext}') format('${fmt.format}')`)
-      .join(',\n      ');
-    css += `
-    @font-face {
-      font-family: ${font.family};
-      src: ${sources};
-      font-weight: normal;
-      font-style: normal;
-      font-display: swap;
+  for (const font of FONT_DEFINITIONS) {
+    for (const file of font.files) {
+      const sources = [file.woff2 && `url(${file.woff2}) format('woff2')`, file.woff && `url(${file.woff}) format('woff')`]
+        .filter(Boolean)
+        .join(',\n      ');
+
+      css += `
+      @font-face {
+        font-family: ${font.family};
+        src: ${sources};
+        font-weight: ${file.weight};
+        font-style: normal;
+        font-display: swap;
+      }
+      `;
     }
-    `;
   }
 
   style.textContent = css;
   document.head.appendChild(style);
-
 }
 
 export function applyFont(fontName) {

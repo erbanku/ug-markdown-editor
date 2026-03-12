@@ -10,6 +10,7 @@ let editor = null;
 let currentFont = localStorage.getItem('ug-editor-font') || 'Noto Naskh Arabic';
 let rtlEnabled = localStorage.getItem('ug-editor-rtl') === 'true';
 let darkMode = localStorage.getItem('ug-editor-dark') === 'true';
+let fontSize = parseInt(localStorage.getItem('ug-editor-font-size'), 10) || 16;
 
 function showToast(message, type = 'success') {
   const existing = document.querySelector('.toast');
@@ -46,85 +47,90 @@ function buildUI() {
 
   const fonts = getFonts();
   const languages = getAvailableLanguages();
+  if (fonts.length && !fonts.some((f) => f.name === currentFont)) {
+    currentFont = fonts[0].name;
+    localStorage.setItem('ug-editor-font', currentFont);
+  }
 
   app.innerHTML = `
-    <div class="app-shell">
-      <div class="app-header">
-        <div class="app-branding">
-          <h1 class="app-title">${t('ui.title')}</h1>
-          <span class="app-mode-badge">${t('ui.sourcePane')} · ${t('ui.previewPane')}</span>
+    <div class="page-shell">
+      <header class="top-hero">
+        <div class="hero-text">
+          <p class="eyebrow">${t('ui.previewPane')}</p>
+          <h1 class="hero-title">${t('ui.title')}</h1>
+          <p class="hero-sub">${t('ui.editorPlaceholder')}</p>
+          <div class="stat-pills">
+            <span class="pill word-count" id="word-count" aria-live="polite">0 ${t('ui.wordCount')} · 0 ${t('ui.charCount')}</span>
+            <span class="pill">${t('ui.sourcePane')}</span>
+            <span class="pill">${t('ui.previewPane')}</span>
+          </div>
         </div>
-        <div class="header-actions">
-          <span class="word-count" id="word-count" aria-live="polite"></span>
-          <button class="settings-toggle" id="settings-toggle" aria-label="Settings">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="3"></circle>
-              <path d="M12 1v6m0 6v6m5.66-15.66l-4.24 4.24m0 6.84l-4.24 4.24M23 12h-6m-6 0H1m15.66 5.66l-4.24-4.24m0-6.84l-4.24-4.24"></path>
-            </svg>
-          </button>
+        <div class="hero-actions">
+          <button class="btn-primary" id="btn-pdf">${t('ui.exportPdf')}</button>
+          <button class="btn-ghost" id="btn-md">${t('ui.exportMd')}</button>
         </div>
-      </div>
+      </header>
 
-      <div class="settings-panel" id="settings-panel">
-        <div class="settings-content">
-          <div class="settings-section">
-            <h3 class="settings-title">${t('ui.language')}</h3>
+      <div class="main-grid">
+        <aside class="control-panel">
+          <div class="control-card">
+            <div class="control-header">
+              <h3>${t('ui.language')}</h3>
+              <label class="toggle">
+                <input type="checkbox" id="rtl-checkbox" ${rtlEnabled ? 'checked' : ''}>
+                <span>${t('ui.rtlMode')}</span>
+              </label>
+            </div>
             <select id="lang-select">
               ${languages.map((l) => `<option value="${l.code}" ${l.code === lang ? 'selected' : ''}>${l.label}</option>`).join('')}
             </select>
           </div>
 
-          <div class="settings-section">
-            <h3 class="settings-title">${t('ui.font')}</h3>
+          <div class="control-card">
+            <h3>${t('ui.font')}</h3>
             <select id="font-select">
               ${fonts.map((f) => `<option value="${f.name}" ${f.name === currentFont ? 'selected' : ''}>${f.name}</option>`).join('')}
             </select>
-          </div>
-
-          <div class="settings-section">
-            <h3 class="settings-title">${t('ui.fontSize')}</h3>
+            <h3 class="stacked">${t('ui.fontSize')}</h3>
             <select id="font-size">
-              <option value="14">14px</option>
-              <option value="16" selected>16px</option>
-              <option value="18">18px</option>
-              <option value="20">20px</option>
-              <option value="24">24px</option>
-              <option value="28">28px</option>
+              <option value="14" ${fontSize === 14 ? 'selected' : ''}>14px</option>
+              <option value="16" ${fontSize === 16 ? 'selected' : ''}>16px</option>
+              <option value="18" ${fontSize === 18 ? 'selected' : ''}>18px</option>
+              <option value="20" ${fontSize === 20 ? 'selected' : ''}>20px</option>
+              <option value="24" ${fontSize === 24 ? 'selected' : ''}>24px</option>
+              <option value="28" ${fontSize === 28 ? 'selected' : ''}>28px</option>
             </select>
           </div>
 
-          <div class="settings-section">
-            <label class="checkbox-label">
-              <input type="checkbox" id="rtl-checkbox" ${rtlEnabled ? 'checked' : ''}>
-              <span>${t('ui.rtlMode')}</span>
-            </label>
-          </div>
-
-          <div class="settings-section">
-            <label class="checkbox-label">
+          <div class="control-card">
+            <h3>${t('ui.darkMode')}</h3>
+            <label class="toggle">
               <input type="checkbox" id="dark-mode-checkbox" ${darkMode ? 'checked' : ''}>
               <span>${t('ui.darkMode')}</span>
             </label>
           </div>
 
-          <div class="settings-section">
-            <h3 class="settings-title">${t('ui.export')}</h3>
-            <div class="export-buttons">
-              <button class="btn-export" id="btn-pdf">${t('ui.exportPdf')}</button>
-              <button class="btn-export" id="btn-png">${t('ui.exportPng')}</button>
-              <button class="btn-export" id="btn-jpg">${t('ui.exportJpg')}</button>
-              <button class="btn-export" id="btn-md">${t('ui.exportMd')}</button>
+          <div class="control-card">
+            <h3>${t('ui.export')}</h3>
+            <div class="export-grid">
+              <button class="btn-surface" id="btn-png">${t('ui.exportPng')}</button>
+              <button class="btn-surface" id="btn-jpg">${t('ui.exportJpg')}</button>
+            </div>
+            <button class="btn-surface secondary" id="btn-clear">${t('ui.clearEditor')}</button>
+          </div>
+        </aside>
+
+        <section class="editor-surface">
+          <div class="editor-meta">
+            <div>
+              <p class="eyebrow">${t('ui.sourcePane')}</p>
+              <h2 class="editor-title">${t('ui.previewPane')}</h2>
             </div>
           </div>
-
-          <div class="settings-section">
-            <button class="btn-clear" id="btn-clear">${t('ui.clearEditor')}</button>
+          <div class="editor-frame editor-container ${rtlEnabled ? 'editor-rtl' : ''}">
+            <div id="editor"></div>
           </div>
-        </div>
-      </div>
-
-      <div class="editor-container ${rtlEnabled ? 'editor-rtl' : ''}">
-        <div id="editor"></div>
+        </section>
       </div>
     </div>
   `;
@@ -133,7 +139,7 @@ function buildUI() {
   initEditor();
   bindEvents();
   applyFont(currentFont);
-  applyFontSize(16);
+  applyFontSize(fontSize);
 }
 
 function applyEditorStyles(styles) {
@@ -235,30 +241,6 @@ function updateWordCount(markdown) {
 }
 
 function bindEvents() {
-  const settingsToggle = document.getElementById('settings-toggle');
-  const settingsPanel = document.getElementById('settings-panel');
-
-  settingsToggle?.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const isOpen = settingsPanel.classList.contains('open');
-    settingsPanel.classList.toggle('open', !isOpen);
-    settingsToggle.setAttribute('aria-expanded', !isOpen);
-  });
-
-  // Close settings when clicking outside
-  document.addEventListener('click', (e) => {
-    // Don't interfere with editor interactions
-    const editorContainer = document.querySelector('.editor-container');
-    if (editorContainer?.contains(e.target)) {
-      return;
-    }
-
-    if (!settingsPanel?.contains(e.target) && !settingsToggle?.contains(e.target)) {
-      settingsPanel?.classList.remove('open');
-      settingsToggle?.setAttribute('aria-expanded', 'false');
-    }
-  });
-
   document.getElementById('lang-select')?.addEventListener('change', (e) => {
     const savedContent = editor?.getMarkdown() || '';
     localStorage.setItem('ug-editor-content', savedContent);
@@ -273,7 +255,9 @@ function bindEvents() {
   });
 
   document.getElementById('font-size')?.addEventListener('change', (e) => {
-    applyFontSize(parseInt(e.target.value, 10));
+    fontSize = parseInt(e.target.value, 10);
+    localStorage.setItem('ug-editor-font-size', fontSize);
+    applyFontSize(fontSize);
   });
 
   document.getElementById('rtl-checkbox')?.addEventListener('change', (e) => {
@@ -350,4 +334,3 @@ if (document.readyState === 'loading') {
 } else {
   init();
 }
-
